@@ -23,6 +23,6 @@ if __name__ == '__main__':
             .option("dbtable", tableName)\
             .option("driver", "com.microsoft.sqlserver.jdbc.SQLServerDriver")\
             .load()
-        df.write.format("parquet").mode("overwrite").save(f".\\parquet\\AdventureWorks-oltp\\{tableName}.parquet")
+        df.write.format("parquet").mode("overwrite").save(f".\\resources\\parquet\\AdventureWorks-oltp\\{tableName}.parquet")
 
     spark.stop()
