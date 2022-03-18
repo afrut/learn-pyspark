@@ -1,4 +1,5 @@
 Clear-Host
 spark-submit --master local `
-    HelloWorld.py `
+    --jars "D:\Spark\sqljdbc_10.2\enu\mssql-jdbc-10.2.0.jre8.jar" `
+    Jdbc.py `
     $($Env:SPARK_HOME+"\README.md")
