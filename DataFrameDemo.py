@@ -8,6 +8,8 @@ import pandas as pd
 if __name__ == '__main__':
     spark = SparkSession.builder.appName("DataFrameCreation").getOrCreate()
 
+
+
     def somefunc(row: Row): print(f"    {row['CarrierTrackingNumber']}")
 
     print("----------------------------------------------------------------------")
@@ -44,9 +46,6 @@ if __name__ == '__main__':
     grouped.agg(mean(df["LineTotal"]).alias("AvgLineTotal")) # Aggregate after grouping
     dfpd = df.toPandas() # Convert to pandas DataFrame
     srs = dfpd.loc[:, 'LineTotal'] # Get the series representing a column
-
-    # TODO: udf, PandasUDFType
-    # TODO: window
 
 
 

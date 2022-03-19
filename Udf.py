@@ -1,10 +1,10 @@
-# Run through pyspark shell using:
-# exec(open("test.py").read())
-import subprocess as sp
+from pyspark.sql import SparkSession
 import pandas as pd
 import math
 from pyspark.sql.functions import mean
 from pyspark.sql.functions import stddev
+from pyspark.sql.functions import min
+from pyspark.sql.functions import max
 from pyspark.sql.functions import udf
 from pyspark.sql.functions import pandas_udf
 from pyspark.sql.types import *
@@ -21,10 +21,7 @@ class Funcs(object):
         return srs / math.sqrt(srs.map(lambda x: x**2).sum())
 
 if __name__ == '__main__':
-    sp.call("cls", shell = True)
-
-
-
+    spark = SparkSession.builder.appName("DataFrameCreation").getOrCreate()
 
 
 
@@ -57,3 +54,8 @@ if __name__ == '__main__':
     normalize = pandas_udf(Funcs.normalize, DoubleType()) # Type has to match spark DataFrame type
     df.withColumn("LineTotal", df["LineTotal"].cast(DoubleType())) \
         .select(normalize("LineTotal").alias("LineTotal"))
+    # df.select(normalize("Linetotal").alias("Normalized")).show()
+
+
+
+    spark.stop()
