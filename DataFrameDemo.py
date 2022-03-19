@@ -1,9 +1,11 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark.sql.types import Row
+from pyspark.sql.functions import pandas_udf
+import pandas as pd
 
 def somefunc(row: Row):
-    print(row["CarrierTrackingNumber"])
+    print(f"    {row['CarrierTrackingNumber']}")
 
 if __name__ == '__main__':
     spark = SparkSession.builder.appName("DataFrameCreation").getOrCreate()
@@ -16,7 +18,8 @@ if __name__ == '__main__':
     df.cache()
 
     df.collect() # Return the DataFrame as a list of Row
-    df.describe() # Compute basic statistics
+    print('Basic statistics')
+    df.describe(["UnitPrice"]).show() # Compute basic statistics
     df.dtypes # List of tuples of the types of each column
     df.select("CarrierTrackingNumber") # Select a single column
     df.select(col("CarrierTrackingNumber"))
@@ -28,13 +31,17 @@ if __name__ == '__main__':
     df.first() # First row of the DataFrame; results in Row
     df.head() # First row of the DataFrame; results in Row
     df.head(5) # First 5 rows of the DataFrame
+    print("\n5 carrier tracking numbers")
     df.limit(5).foreach(somefunc) # 5 rows from DataFrame and apply a function to each row
+    print('\nSchema:')
     df.printSchema() # Print schema
-    df.show(5) # Show top 5 rows. Default of 20
+    df.select("SalesOrderID", "ProductID").show(5) # Show top 5 rows. Default of 20
+    print('\nBasic statistics with percentiles')
     df.summary() # Same as describe but with percentiles
     df.tail(5) # Last 5 rows
     df.createOrReplaceTempView("table") # Create a temporary view for using SQL on
-    spark.sql("SELECT * FROM table").show()
+    spark.sql("SELECT * FROM table")
 
-    
+
+
     spark.stop()
