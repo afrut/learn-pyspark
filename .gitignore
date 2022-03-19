@@ -1,2 +1,3 @@
 .vscode
 resources/parquet
+test.py
