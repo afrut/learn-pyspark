@@ -43,8 +43,9 @@ if __name__ == '__main__':
         # Group the data by their content(words).
         grouped = wordsFlatMap.map(lambda word: (word, 1)).groupByKey()
         wordCounts = grouped.mapValues(len)
-        lsWordCounts = wordCounts.collect()
-        for key, val in lsWordCounts:
-            print(f'{key}: {val}')
+        wordCountsSorted = wordCounts.sortBy(lambda tpl: tpl[1], ascending = False)
+        top5 = wordCountsSorted.take(5)
+        for key, val in top5:
+            print(f'    {key}: {val}')
 
         spark.stop()
