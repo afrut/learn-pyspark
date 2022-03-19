@@ -1,14 +1,14 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
+from pyspark.sql.functions import mean
 from pyspark.sql.types import Row
 from pyspark.sql.functions import pandas_udf
 import pandas as pd
 
-def somefunc(row: Row):
-    print(f"    {row['CarrierTrackingNumber']}")
-
 if __name__ == '__main__':
     spark = SparkSession.builder.appName("DataFrameCreation").getOrCreate()
+
+    def somefunc(row: Row): print(f"    {row['CarrierTrackingNumber']}")
 
     print("----------------------------------------------------------------------")
     print("  DataFrame Demo")
@@ -36,11 +36,15 @@ if __name__ == '__main__':
     print('\nSchema:')
     df.printSchema() # Print schema
     df.select("SalesOrderID", "ProductID").show(5) # Show top 5 rows. Default of 20
-    print('\nBasic statistics with percentiles')
     df.summary() # Same as describe but with percentiles
     df.tail(5) # Last 5 rows
     df.createOrReplaceTempView("table") # Create a temporary view for using SQL on
     spark.sql("SELECT * FROM table")
+    grouped = df.groupBy("SalesOrderID") # Group by a column
+    grouped.agg(mean(df["LineTotal"]).alias("AvgLineTotal")) # Aggregate after grouping
+
+    # TODO: udf, PandasUDFType
+    # TODO: window
 
 
 
