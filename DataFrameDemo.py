@@ -30,9 +30,11 @@ if __name__ == '__main__':
     df.head(5) # First 5 rows of the DataFrame
     df.limit(5).foreach(somefunc) # 5 rows from DataFrame and apply a function to each row
     df.printSchema() # Print schema
-    df.printSchema(3) # Print schema up to level 3
     df.show(5) # Show top 5 rows. Default of 20
     df.summary() # Same as describe but with percentiles
     df.tail(5) # Last 5 rows
+    df.createOrReplaceTempView("table") # Create a temporary view for using SQL on
+    spark.sql("SELECT * FROM table").show()
+
     
     spark.stop()
