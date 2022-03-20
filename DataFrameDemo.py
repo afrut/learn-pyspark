@@ -4,6 +4,9 @@ from pyspark.sql.functions import mean
 from pyspark.sql.types import Row
 from pyspark.sql.functions import pandas_udf
 import pandas as pd
+from pyspark.sql.functions import expr
+from pyspark.sql.functions import sum
+from pyspark.sql.functions import first
 
 if __name__ == '__main__':
     spark = SparkSession.builder.appName("DataFrameCreation").getOrCreate()
@@ -46,6 +49,35 @@ if __name__ == '__main__':
     grouped.agg(mean(df["LineTotal"]).alias("AvgLineTotal")) # Aggregate after grouping
     dfpd = df.toPandas() # Convert to pandas DataFrame
     srs = dfpd.loc[:, 'LineTotal'] # Get the series representing a column
+
+
+
+    # Create a new DataFrame
+    rowData = [("foo","A",10,"14ZX")
+        ,("foo","B",14,"52OS")
+        ,("foo","C",28,"37AT")
+        ,("foo","D",57,"49WE")
+        ,("foo","B",13,"14ZX")
+        ,("bar","Z",50,"88EE")
+        ,("bar","G",24,"33TY")
+        ,("bar","O",63,"43BR")
+        ,("baz","A",77,"29BT")
+        ,("qaz","J",44,"12AB")]
+    colnames = ["Name","Letter","Num","Code"]
+    df2 = spark.createDataFrame([Row(**dict(zip(colnames, row))) for row in rowData])
+    print('Before unpivot:')
+    df2.show()
+
+    # Unpivot the DataFrame
+    # expr("stack(number of columns, Code1, column1, Code2, column 2 as (ColumnName for Codes, Values)")
+    df3 = df2.select("Name", "Letter", expr("stack(2, 'Code', Code, 'Num', string(Num)) as (Column, Value)"))
+    print('After unpivot:')
+    df3.show()
+
+    # Pivot the DataFrame
+    df2.groupBy("Name").pivot("Letter")\
+        .agg(sum("Num").alias("Num")
+            ,first("Letter").alias("Letter")).show()
 
 
 
