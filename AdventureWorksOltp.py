@@ -1,18 +1,14 @@
-# Run through pyspark shell using:
-# exec(open("test.py").read())
-import subprocess
+from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark.sql.functions import dense_rank
 from pyspark.sql.window import Window
 from pyspark.sql.functions import when
 from pyspark.sql.functions import concat
 from pyspark.sql.functions import lit
+from pyspark.sql.functions import sum
 
 if __name__ == '__main__':
-    subprocess.call("cls", shell = True)
-
-
-
+    spark = SparkSession.builder.appName("AdventureWorks").getOrCreate()
     print("----------------------------------------------------------------------")
     print("  AdventureWorks Oltp")
     print("----------------------------------------------------------------------")
@@ -117,3 +113,6 @@ if __name__ == '__main__':
     productBySalesPersonByQuantity()
     productBySalesPersonByRevenue()
 
+
+
+    spark.stop()
