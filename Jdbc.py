@@ -1,3 +1,4 @@
+#ss Jdbc.py
 from pyspark.sql import SparkSession
 
 if __name__ == '__main__':
@@ -18,6 +19,7 @@ if __name__ == '__main__':
 
     # Query each table and write to parquet file.
     for tableName in tableNames:
+        print(f"Writing table {tableName}")
         df = spark.read.format("jdbc")\
             .option("url",  "jdbc:sqlserver://localhost:1433;databaseName=AdventureWorks;trustServerCertificate=true;integratedsecurity=true")\
             .option("dbtable", tableName)\

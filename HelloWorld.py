@@ -1,3 +1,4 @@
+#ss HelloWorld.py $($Env:SPARK_HOME + "\README.md")
 import sys
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import lit
@@ -49,3 +50,5 @@ if __name__ == '__main__':
             print(f'    {key}: {val}')
 
         spark.stop()
+    else:
+        print("Please provide path of Spark's README.md")

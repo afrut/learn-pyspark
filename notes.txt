@@ -1,0 +1,2 @@
+Don't forget to start SQL Server (MSSQLSERVER) through Sql Server Configuration
+Manager when running Jdbc.py or any other script that needs the SQL Server.
