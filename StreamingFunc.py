@@ -13,7 +13,6 @@ def timeoutNewData(query: StreamingQuery, timeout: int):
             if dct["numInputRows"] != 0:
                 newData = datetime.now()
             if (datetime.now() - newData).total_seconds() >= timeout:
-                query.stop()
                 break
 
 if __name__ == "__main__":
@@ -31,6 +30,7 @@ if __name__ == "__main__":
     timeoutNewData(query, timeout)
     print(f"No new data has arrived in {timeout}s. Stopping streaming query")
 
+    query.stop()
     query.awaitTermination()
     spark.stop()
     print("Done")
