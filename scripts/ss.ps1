@@ -1,6 +1,7 @@
 Clear-Host
 $packages = @(
-    "io.delta:delta-core_2.12:0.7.0"        # to use Delta Lake
+    "io.delta:delta-core_2.12:0.7.0"                    # to use Delta Lake
+    "org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.3"  # to use Kafka as streaming source/sink
 ) -join ","
 
 $jars = @(
