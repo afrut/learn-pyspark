@@ -1,3 +1,9 @@
 .vscode
-resources/parquet
+resources/parquet/AdventureWorks-oltp
 scratch.py
+job-listing2
+checkpoint
+_delta_log
+_spark_metadata
+*.crc
+__pycache__
