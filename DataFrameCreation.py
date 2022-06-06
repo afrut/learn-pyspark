@@ -3,16 +3,15 @@ from random import randint
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
 from pyspark.sql import Row
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import pandas as pd
 
-def randTime(today: date) -> datetime:
-    return datetime(today.year
-         ,today.month - randint(0, 1)
-         ,today.day - randint(0, 10)
-         ,randint(0, 23)
-         ,randint(0, 59)
-         ,randint(0, 59))
+def randTime(today: date = date.today()) -> datetime:
+    return today - timedelta(
+        days = randint(0, 10)
+        ,hours = randint(0, 23)
+        ,minutes = randint(0, 60)
+        ,seconds = randint(0, 60))
 
 if __name__ == '__main__':
     spark = SparkSession.builder.appName("DataFrameCreation").getOrCreate()
@@ -52,11 +51,11 @@ if __name__ == '__main__':
 
     # Create DataFrame from RDD,
     rdd = spark.sparkContext.parallelize([
-        (65394,76405,54283,32387,32387)
-        ,("John","Jane","Jim","Sarah","Cloud")
-        ,("Smith","Doe","Raynor","Kerrigan","Strife")
-        ,(date(1979, 9, 29),date(1983, 6, 6),date(1992, 2, 22),date(1969, 3, 13),date(2001, 1, 30))
-        ,(randTime(today),randTime(today),randTime(today),randTime(today),randTime(today))
+        (65394,"John","Smith",date(1979, 9, 29),randTime())
+        ,(76405,"Jane","Doe",date(1983, 6, 6),randTime())
+        ,(54283,"Jim","Raynor",date(1992, 2, 22),randTime())
+        ,(32387,"Sarah","Kerrigan",date(1969, 3, 13),randTime())
+        ,(32387,"Cloud","Strife",date(2001, 1, 30),randTime())
     ])
     df4 = spark.createDataFrame(rdd, schema = ["ID", "FirstName", "LastName", "DateOfBirth", "LastActive"])
 
