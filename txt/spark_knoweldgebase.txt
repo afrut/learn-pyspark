@@ -1,0 +1,89 @@
+Entry Point
+Creation
+    spark.read.format().option("path", filePath).load().toDF(*cols)
+    schema = StructType([StructField(colName1, sparkType1, nullable1)
+        ,StructField(colName2, sparkType2, nullable2)])
+    spark.read.format("csv").option("path", filePath).load(schema = schema)
+    lsRows = [Row(field1 = val1, field2 = val2, field3 = val3)
+        ,Row(field1, = val1, field2 = val2, field3 = val3)]
+    spark.createDataFrame(lsRows)
+    spark.emptyDataFrame
+    spark.range
+    rdd = spark.sparkContext.parallelize(list of rows as tuples)
+    spark.createDataFrame(rdd)
+    spark.CreateDataFrame(rdd, schema = StructType of StructFields or list of column names)
+Caching/Persisting
+    cache
+    persist
+    unpersist
+    automatically caching before shuffle
+Selection, Computation, Aliasing, Distinct
+    select(splat(list of column objects))
+    select(col("columnName").alias("newName"))
+    DataFrame["columnName"]: returns the column object of columnName
+    limit
+    distinct
+Actions
+    collect: returns a list of Row, which can be converted to a dict with Row.asDict()
+    count
+    describe: returns a DataFrame
+    first
+    foreach
+    foreachPartition: used for functions that need heavy overhead initialization like creating a connection to a database
+    head
+    reduce
+    show
+    summary: same as describe but with quantiles
+    tail
+    take
+    takeAsList
+    toLocalIterator
+Transformations
+    flatMap
+    map
+    mapPartitions
+    dropDuplicates
+    filter
+    intersect
+    intersectAll
+    except
+    exceptAll
+    sort
+    sortWithinPartitions
+Filtering
+SQL
+    spark.sql
+    df.selectExpr
+    createGlobalTempView
+    createOrReplaceGlobalTempView
+    createOrReplaceTempView
+    createTempView
+    dfleft.join(dfright, dfleft["col1"] == dfright["col2"], "joinType")
+    groupBy
+    orderBy
+    where
+    union
+    unionAll
+    unionByName
+Partitioning
+    coalesce
+    repartition
+Untyped Transformations
+    agg
+    col
+    drop
+    cube
+    rollup
+    withColumn
+    withColumnRenamed
+    explode
+    stat
+Inspection
+    columns
+    dtypes
+    explain
+    isEmpty
+    printSchema
+    schema
+    rdd.toDebugString
+    rdd.getNumPartitions()
